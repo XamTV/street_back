@@ -13,11 +13,9 @@ RUN corepack enable && \
 
 COPY --link ./server/package.json ./server/
 
-
 RUN cd server && \
     pnpm fetch && \
     pnpm install
-
 
 
 
