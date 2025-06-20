@@ -2,7 +2,7 @@ const express = require("express");
 const multer = require("multer");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const { cloudinary } = require("../../../../cloudinary");
-const { uploadPicture } = require("../../controllers/upload.controller");
+const { uploadPicture } = require("../../../controllers/uploadActions");
 
 const storage = new CloudinaryStorage({
   cloudinary,
