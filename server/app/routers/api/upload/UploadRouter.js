@@ -1,7 +1,18 @@
 const express = require("express");
 const multer = require("multer");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const { cloudinary } = require("../../../../cloudinary"); // ton fichier config
 
-const uploadPicture = multer({ dest: "public/uploadedPicture/" });
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "uploadedPictures", // nom du dossier dans Cloudinary
+    allowed_formats: ["jpg", "png", "webp"],
+    transformation: [{ width: 1000, crop: "limit" }],
+  },
+});
+
+const upload = multer({ storage });
 
 const router = express.Router();
 
@@ -10,18 +21,15 @@ const router = express.Router();
 /* ************************************************************************* */
 
 // Import item-related actions
-const {
-  upload,
-} = require("../../../controllers/uploadActions");
 
-
-
+router.post("/", upload.single("file"), (req, res) => {
+  res.status(201).json({
+    msg: "Upload réussi",
+    url: req.file.path, // URL Cloudinary directe
+  });
+});
 
 // Route to upload an item
-router.post("/", uploadPicture.single("file"), upload)
-
-
-
 
 /* ************************************************************************* */
 
